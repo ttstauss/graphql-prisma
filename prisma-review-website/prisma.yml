@@ -1,0 +1,10 @@
+endpoint: ${env:PRISMA_ENDPOINT}
+datamodel: datamodel.graphql
+
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma
+
+hooks:
+  post-deploy:
+    - prisma generate
