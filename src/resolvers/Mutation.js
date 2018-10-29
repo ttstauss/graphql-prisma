@@ -152,14 +152,24 @@ const Mutation = {
   },
   async deleteComment(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
-    const commentExists = await prisma.exists.Comment({
+    // is comment owned by user
+    const ownCommentExists = await prisma.exists.Comment({
       id: args.id,
       author: {
         id: userId
       }
     })
+    // is post commented on owned by user
+    const ownPostCommentExists = await prisma.exists.Comment({
+      id: args.id,
+      post: {
+        author: {
+          id: userId
+        }
+      }
+    })
 
-    if (!commentExists) {
+    if (!ownCommentExists && !ownPostCommentExists) {
       throw new Error('Unable to delete comment')
     }
 

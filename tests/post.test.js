@@ -24,7 +24,7 @@ beforeEach(seedDatabase)
 test('should expose published posts', async () => {
   const response = await client.query({ query: getPosts })
 
-  expect(response.data.posts.length).toBe(1)
+  expect(response.data.posts.length).toBe(2)
   expect(response.data.posts[0].published).toBe(true)
 })
 

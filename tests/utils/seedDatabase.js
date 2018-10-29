@@ -40,6 +40,15 @@ const postTwo = {
   post: undefined
 }
 
+const postThree = {
+  input: {
+    title: "Another Post for Y'all",
+    body: '',
+    published: true
+  },
+  post: undefined
+}
+
 const commentOne = {
   input: {
     text: 'Great post. Thanks for sharing!'
@@ -52,6 +61,12 @@ const commentTwo = {
     text: 'I am glad you enjoyed it.'
   },
   comment: undefined
+}
+
+const commentThree = {
+  input: {
+    text: 'This is dope yo'
+  }
 }
 
 const seedDatabase = async () => {
@@ -96,6 +111,16 @@ const seedDatabase = async () => {
     }
   })
 
+  // create postThree
+  postThree.post = await prisma.mutation.createPost({
+    data: {
+      ...postThree.input,
+      author: {
+        connect: { id: userTwo.user.id }
+      }
+    }
+  })
+
   // create commentOne
   commentOne.comment = await prisma.mutation.createComment({
     data: {
@@ -113,7 +138,7 @@ const seedDatabase = async () => {
     }
   })
 
-  // creat commentTwo
+  // create commentTwo
   commentTwo.comment = await prisma.mutation.createComment({
     data: {
       ...commentTwo.input,
@@ -129,6 +154,23 @@ const seedDatabase = async () => {
       }
     }
   })
+
+  // create commentThree
+  commentThree.comment = await prisma.mutation.createComment({
+    data: {
+      ...commentThree.input,
+      author: {
+        connect: {
+          id: userTwo.user.id
+        }
+      },
+      post: {
+        connect: {
+          id: postThree.post.id
+        }
+      }
+    }
+  })
 }
 
 export {
@@ -137,6 +179,8 @@ export {
   userTwo,
   postOne,
   postTwo,
+  postThree,
   commentOne,
-  commentTwo
+  commentTwo,
+  commentThree
 }

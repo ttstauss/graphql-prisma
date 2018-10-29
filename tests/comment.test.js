@@ -6,7 +6,8 @@ import seedDatabase, {
   commentTwo,
   postOne,
   userTwo,
-  postTwo
+  postTwo,
+  commentThree
 } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import {
@@ -33,13 +34,25 @@ test('should delete own comment', async () => {
   expect(exists).toBe(false)
 })
 
-test('should not delete other users comment', async () => {
+test('should not delete other users comment on unowned post', async () => {
   const client = getClient(userOne.jwt)
-  const variables = { id: commentOne.comment.id }
+  const variables = { id: commentThree.comment.id }
 
   await expect(
     client.mutate({ mutation: deleteComment, variables })
   ).rejects.toThrow()
+})
+
+test('should delete other users comment on own post', async () => {
+  const client = getClient(userOne.jwt)
+  const variables = {
+    id: commentOne.comment.id
+  }
+
+  await client.mutate({ mutation: deleteComment, variables })
+  const exists = await prisma.exists.Comment({ id: commentOne.comment.id })
+
+  expect(exists).toBe(false)
 })
 
 test('should fetch post comments', async () => {
@@ -110,12 +123,6 @@ test('should not update another users comment', async () => {
   await expect(
     client.mutate({ mutation: updateComment, variables })
   ).rejects.toThrow()
-})
-
-test('should not delete another user comment', async () => {
-  const client = getClient(userOne.jwt)
-
-  await expect(client.mutate({ mutation: deleteComment })).rejects.toThrow()
 })
 
 test('should require authentication to create a comment', async () => {
