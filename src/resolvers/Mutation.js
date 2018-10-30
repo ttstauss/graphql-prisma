@@ -117,11 +117,12 @@ const Mutation = {
     const userId = getUserId(request)
     const postExists = await prisma.exists.Post({
       id: args.data.post,
-      published: true
+      published: true,
+      disableComments: false
     })
 
     if (!postExists) {
-      throw new Error('Unable to find post')
+      throw new Error('Unable to create comment')
     }
 
     return prisma.mutation.createComment(

@@ -58,7 +58,7 @@ test('should delete other users comment on own post', async () => {
   expect(exists).toBe(false)
 })
 
-test('should fetch post comments if disableComments is false', async () => {
+test('should fetch post comments if comments are not disabled', async () => {
   const variables = { id: postOne.post.id }
 
   const { data } = await client.query({ query: getPostComments, variables })
@@ -66,7 +66,7 @@ test('should fetch post comments if disableComments is false', async () => {
   expect(data.post.comments.length).toBe(2)
 })
 
-test('should not fetch post comments if disableComments is true', async () => {
+test('should not fetch post comments if comments disabled', async () => {
   const variables = { id: postFour.post.id }
 
   const { data } = await client.query({ query: getPostComments, variables })
@@ -98,6 +98,20 @@ test('should not create comment on draft post', async () => {
     data: {
       text: 'This is a test comment',
       post: postTwo.post.id
+    }
+  }
+
+  await expect(
+    client.mutate({ mutation: createComment, variables })
+  ).rejects.toThrow()
+})
+
+test('should not create comment on post if comments disabled', async () => {
+  const client = getClient(userTwo.jwt)
+  const variables = {
+    data: {
+      text: 'A comment that should not work',
+      post: postFour.id
     }
   }
 
