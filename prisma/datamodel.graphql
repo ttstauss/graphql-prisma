@@ -16,6 +16,7 @@ type Post {
   published: Boolean!
   author: User! @relation(name: "PostToUser", onDelete: SET_NULL)
   comments: [Comment!]! @relation(name: "CommentToPost", onDelete: CASCADE)
+  disableComments: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }

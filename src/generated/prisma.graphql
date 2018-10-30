@@ -1,5 +1,5 @@
-# source: http://192.168.99.100:4466
-# timestamp: Wed Oct 24 2018 18:56:52 GMT-0600 (Mountain Daylight Time)
+# source: http://192.168.99.100:4466/blog
+# timestamp: Tue Oct 30 2018 10:39:47 GMT-0600 (Mountain Daylight Time)
 
 type AggregateComment {
   count: Int!
@@ -393,6 +393,7 @@ type Post implements Node {
   published: Boolean!
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  disableComments: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -411,6 +412,7 @@ input PostCreateInput {
   title: String!
   body: String!
   published: Boolean!
+  disableComments: Boolean!
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
 }
@@ -429,6 +431,7 @@ input PostCreateWithoutAuthorInput {
   title: String!
   body: String!
   published: Boolean!
+  disableComments: Boolean!
   comments: CommentCreateManyWithoutPostInput
 }
 
@@ -436,6 +439,7 @@ input PostCreateWithoutCommentsInput {
   title: String!
   body: String!
   published: Boolean!
+  disableComments: Boolean!
   author: UserCreateOneWithoutPostsInput!
 }
 
@@ -457,6 +461,8 @@ enum PostOrderByInput {
   body_DESC
   published_ASC
   published_DESC
+  disableComments_ASC
+  disableComments_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -468,6 +474,7 @@ type PostPreviousValues {
   title: String!
   body: String!
   published: Boolean!
+  disableComments: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -515,6 +522,7 @@ input PostUpdateInput {
   title: String
   body: String
   published: Boolean
+  disableComments: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
@@ -539,6 +547,7 @@ input PostUpdateWithoutAuthorDataInput {
   title: String
   body: String
   published: Boolean
+  disableComments: Boolean
   comments: CommentUpdateManyWithoutPostInput
 }
 
@@ -546,6 +555,7 @@ input PostUpdateWithoutCommentsDataInput {
   title: String
   body: String
   published: Boolean
+  disableComments: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -698,6 +708,10 @@ input PostWhereInput {
 
   """All values that are not equal to given value."""
   published_not: Boolean
+  disableComments: Boolean
+
+  """All values that are not equal to given value."""
+  disableComments_not: Boolean
   createdAt: DateTime
 
   """All values that are not equal to given value."""

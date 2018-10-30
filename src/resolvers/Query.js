@@ -73,6 +73,7 @@ const Query = {
   },
   comments(parent, args, { prisma }, info) {
     const opArgs = {
+      where: { post: { disableComments: false } },
       first: args.first,
       skip: args.skip,
       after: args.after,

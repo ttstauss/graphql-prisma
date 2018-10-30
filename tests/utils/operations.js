@@ -48,6 +48,7 @@ const getPosts = gql`
       title
       body
       published
+      disableComments
     }
   }
 `
@@ -59,6 +60,7 @@ const myPosts = gql`
       title
       body
       published
+      disableComments
     }
   }
 `
@@ -70,6 +72,7 @@ const updatePost = gql`
       title
       body
       published
+      disableComments
     }
   }
 `
@@ -81,6 +84,7 @@ const createPost = gql`
       title
       body
       published
+      disableComments
     }
   }
 `
@@ -138,6 +142,7 @@ const getPost = gql`
       title
       body
       published
+      disableComments
     }
   }
 `
@@ -145,6 +150,7 @@ const getPost = gql`
 const getPostComments = gql`
   query($id: ID!) {
     post(id: $id) {
+      disableComments
       comments {
         id
         text

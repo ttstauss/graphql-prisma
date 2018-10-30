@@ -7,7 +7,8 @@ import seedDatabase, {
   postOne,
   userTwo,
   postTwo,
-  commentThree
+  commentThree,
+  postFour
 } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import {
@@ -17,6 +18,8 @@ import {
   createComment,
   updateComment
 } from './utils/operations'
+
+jest.setTimeout(10000)
 
 const client = getClient()
 
@@ -55,12 +58,20 @@ test('should delete other users comment on own post', async () => {
   expect(exists).toBe(false)
 })
 
-test('should fetch post comments', async () => {
+test('should fetch post comments if disableComments is false', async () => {
   const variables = { id: postOne.post.id }
 
   const { data } = await client.query({ query: getPostComments, variables })
 
   expect(data.post.comments.length).toBe(2)
+})
+
+test('should not fetch post comments if disableComments is true', async () => {
+  const variables = { id: postFour.post.id }
+
+  const { data } = await client.query({ query: getPostComments, variables })
+
+  expect(data.post.comments.length).toBe(0)
 })
 
 test('should create new comment', async () => {

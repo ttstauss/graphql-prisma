@@ -26,7 +26,8 @@ const postOne = {
   input: {
     title: 'My Published Post',
     body: '',
-    published: true
+    published: true,
+    disableComments: false
   },
   post: undefined
 }
@@ -35,7 +36,8 @@ const postTwo = {
   input: {
     title: 'My Draft Post',
     body: '',
-    published: false
+    published: false,
+    disableComments: false
   },
   post: undefined
 }
@@ -44,7 +46,18 @@ const postThree = {
   input: {
     title: "Another Post for Y'all",
     body: '',
-    published: true
+    published: true,
+    disableComments: false
+  },
+  post: undefined
+}
+
+const postFour = {
+  input: {
+    title: 'This post should not show comments',
+    body: '',
+    published: true,
+    disableComments: true
   },
   post: undefined
 }
@@ -66,6 +79,12 @@ const commentTwo = {
 const commentThree = {
   input: {
     text: 'This is dope yo'
+  }
+}
+
+const commentFour = {
+  input: {
+    text: 'This comment should not be seen'
   }
 }
 
@@ -121,6 +140,16 @@ const seedDatabase = async () => {
     }
   })
 
+  // create postFour
+  postFour.post = await prisma.mutation.createPost({
+    data: {
+      ...postFour.input,
+      author: {
+        connect: { id: userOne.user.id }
+      }
+    }
+  })
+
   // create commentOne
   commentOne.comment = await prisma.mutation.createComment({
     data: {
@@ -171,6 +200,23 @@ const seedDatabase = async () => {
       }
     }
   })
+
+  // create commentFour
+  commentFour.comment = await prisma.mutation.createComment({
+    data: {
+      ...commentFour.input,
+      author: {
+        connect: {
+          id: userTwo.user.id
+        }
+      },
+      post: {
+        connect: {
+          id: postFour.post.id
+        }
+      }
+    }
+  })
 }
 
 export {
@@ -180,7 +226,9 @@ export {
   postOne,
   postTwo,
   postThree,
+  postFour,
   commentOne,
   commentTwo,
-  commentThree
+  commentThree,
+  commentFour
 }

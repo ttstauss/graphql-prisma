@@ -63,6 +63,7 @@ const Mutation = {
           title: args.data.title,
           body: args.data.body,
           published: args.data.published,
+          disableComments: args.data.disableComments,
           author: { connect: { id: userId } }
         }
       },

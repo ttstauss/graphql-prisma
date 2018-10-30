@@ -17,6 +17,8 @@ import {
   getPost
 } from './utils/operations'
 
+jest.setTimeout(10000)
+
 const client = getClient()
 
 beforeEach(seedDatabase)
@@ -24,7 +26,7 @@ beforeEach(seedDatabase)
 test('should expose published posts', async () => {
   const response = await client.query({ query: getPosts })
 
-  expect(response.data.posts.length).toBe(2)
+  expect(response.data.posts.length).toBe(3)
   expect(response.data.posts[0].published).toBe(true)
 })
 
@@ -32,7 +34,7 @@ test('should fetch users posts', async () => {
   const client = getClient(userOne.jwt)
   const { data } = await client.query({ query: myPosts })
 
-  expect(data.myPosts.length).toBe(2)
+  expect(data.myPosts.length).toBe(3)
 })
 
 test('should be able to update own post', async () => {
@@ -52,7 +54,12 @@ test('should be able to update own post', async () => {
 test('should create a post', async () => {
   const client = getClient(userOne.jwt)
   const variables = {
-    data: { title: 'A Test Post', body: '', published: true }
+    data: {
+      title: 'A Test Post',
+      body: '',
+      published: true,
+      disableComments: false
+    }
   }
 
   const { data } = await client.mutate({ mutation: createPost, variables })
@@ -63,6 +70,7 @@ test('should create a post', async () => {
   expect(data.createPost.title).toBe('A Test Post')
   expect(data.createPost.body).toBe('')
   expect(data.createPost.published).toBe(true)
+  expect(data.createPost.disableComments).toBe(false)
   expect(exists).toBe(true)
 })
 
@@ -103,7 +111,8 @@ test('should require authentication to create a post', async () => {
     data: {
       title: 'A New Post',
       body: '',
-      published: true
+      published: true,
+      disableComments: false
     }
   }
 

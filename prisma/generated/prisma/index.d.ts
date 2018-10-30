@@ -196,6 +196,8 @@ export type PostOrderByInput =
   | "body_DESC"
   | "published_ASC"
   | "published_DESC"
+  | "disableComments_ASC"
+  | "disableComments_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -267,6 +269,7 @@ export interface PostCreateWithoutAuthorInput {
   body: String;
   published: Boolean;
   comments?: CommentCreateManyWithoutPostInput;
+  disableComments: Boolean;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -320,6 +323,7 @@ export interface PostUpdateInput {
   published?: Boolean;
   author?: UserUpdateOneRequiredWithoutPostsInput;
   comments?: CommentUpdateManyWithoutPostInput;
+  disableComments?: Boolean;
 }
 
 export interface PostCreateWithoutCommentsInput {
@@ -327,6 +331,7 @@ export interface PostCreateWithoutCommentsInput {
   body: String;
   published: Boolean;
   author: UserCreateOneWithoutPostsInput;
+  disableComments: Boolean;
 }
 
 export interface PostUpsertWithoutCommentsInput {
@@ -361,6 +366,7 @@ export interface PostUpdateWithoutCommentsDataInput {
   body?: String;
   published?: Boolean;
   author?: UserUpdateOneRequiredWithoutPostsInput;
+  disableComments?: Boolean;
 }
 
 export interface CommentUpdateWithWhereUniqueWithoutAuthorInput {
@@ -524,6 +530,8 @@ export interface PostWhereInput {
   comments_every?: CommentWhereInput;
   comments_some?: CommentWhereInput;
   comments_none?: CommentWhereInput;
+  disableComments?: Boolean;
+  disableComments_not?: Boolean;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -592,6 +600,7 @@ export interface PostUpdateWithoutAuthorDataInput {
   body?: String;
   published?: Boolean;
   comments?: CommentUpdateManyWithoutPostInput;
+  disableComments?: Boolean;
 }
 
 export interface UserUpdateOneRequiredWithoutPostsInput {
@@ -677,6 +686,7 @@ export interface PostCreateInput {
   published: Boolean;
   author: UserCreateOneWithoutPostsInput;
   comments?: CommentCreateManyWithoutPostInput;
+  disableComments: Boolean;
 }
 
 export interface UserUpsertWithoutCommentsInput {
@@ -777,6 +787,7 @@ export interface PostPreviousValuesNode {
   title: String;
   body: String;
   published: Boolean;
+  disableComments: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -788,6 +799,7 @@ export interface PostPreviousValues
   title: () => Promise<String>;
   body: () => Promise<String>;
   published: () => Promise<Boolean>;
+  disableComments: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -799,6 +811,7 @@ export interface PostPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   body: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
+  disableComments: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1118,6 +1131,7 @@ export interface PostNode {
   title: String;
   body: String;
   published: Boolean;
+  disableComments: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1139,6 +1153,7 @@ export interface Post extends Promise<PostNode>, Fragmentable {
       last?: Int;
     }
   ) => T;
+  disableComments: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1162,6 +1177,7 @@ export interface PostSubscription
       last?: Int;
     }
   ) => T;
+  disableComments: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }

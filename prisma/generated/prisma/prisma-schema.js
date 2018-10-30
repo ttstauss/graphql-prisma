@@ -258,6 +258,7 @@ type Post {
   published: Boolean!
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  disableComments: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -274,6 +275,7 @@ input PostCreateInput {
   published: Boolean!
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
+  disableComments: Boolean!
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -291,6 +293,7 @@ input PostCreateWithoutAuthorInput {
   body: String!
   published: Boolean!
   comments: CommentCreateManyWithoutPostInput
+  disableComments: Boolean!
 }
 
 input PostCreateWithoutCommentsInput {
@@ -298,6 +301,7 @@ input PostCreateWithoutCommentsInput {
   body: String!
   published: Boolean!
   author: UserCreateOneWithoutPostsInput!
+  disableComments: Boolean!
 }
 
 type PostEdge {
@@ -314,6 +318,8 @@ enum PostOrderByInput {
   body_DESC
   published_ASC
   published_DESC
+  disableComments_ASC
+  disableComments_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -325,6 +331,7 @@ type PostPreviousValues {
   title: String!
   body: String!
   published: Boolean!
+  disableComments: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -353,6 +360,7 @@ input PostUpdateInput {
   published: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
+  disableComments: Boolean
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -376,6 +384,7 @@ input PostUpdateWithoutAuthorDataInput {
   body: String
   published: Boolean
   comments: CommentUpdateManyWithoutPostInput
+  disableComments: Boolean
 }
 
 input PostUpdateWithoutCommentsDataInput {
@@ -383,6 +392,7 @@ input PostUpdateWithoutCommentsDataInput {
   body: String
   published: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
+  disableComments: Boolean
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -450,6 +460,8 @@ input PostWhereInput {
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  disableComments: Boolean
+  disableComments_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

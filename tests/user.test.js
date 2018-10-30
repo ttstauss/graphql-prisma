@@ -4,6 +4,8 @@ import seedDatabase, { userOne } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createUser, getUsers, login, getProfile, me } from './utils/operations'
 
+jest.setTimeout(10000)
+
 const client = getClient()
 
 beforeEach(seedDatabase)
